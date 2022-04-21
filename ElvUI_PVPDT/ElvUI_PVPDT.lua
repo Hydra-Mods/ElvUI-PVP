@@ -3,7 +3,7 @@ local DT = E:GetModule("DataTexts")
 
 local BreakUpLargeNumbers = BreakUpLargeNumbers
 local GetPVPLifetimeStats = GetPVPLifetimeStats
-local Label = KILLS
+local KILLS = KILLS
 local String = "%s: %s"
 local Panel
 
@@ -12,7 +12,7 @@ local OnEvent = function(self, event, unit)
 		return
 	end
 	
-	self.text:SetFormattedText(String, Label, BreakUpLargeNumbers(GetPVPLifetimeStats()))
+	self.text:SetFormattedText(String, KILLS, BreakUpLargeNumbers(GetPVPLifetimeStats()))
 	
 	Panel = self
 end
