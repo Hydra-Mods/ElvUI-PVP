@@ -1,6 +1,6 @@
 ## Interface: 11403
 ## Title: |cff1784d1ElvUI|r PVP Data Text
-## Version: 1.12
+## Version: 1.13
 ## Notes: Create a data text to display pvp information
 ## Author: Hydra
 ## RequiredDeps: ElvUI
