@@ -18,7 +18,11 @@ local OnEvent = function(self, event, unit)
 end
 
 local OnClick = function()
-	ToggleCharacter("HonorFrame")
+	if E.Classic then
+		ToggleCharacter("HonorFrame")
+	else
+		ToggleCharacter("PVPFrame")
+	end
 end
 
 local OnEnter = function(self)
@@ -26,6 +30,10 @@ local OnEnter = function(self)
 	
 	local HK, DK = GetPVPSessionStats()
 	local Rank = UnitPVPRank("player")
+	local Honor = C_CurrencyInfo.GetCurrencyInfo(1901)
+	
+	DT.tooltip:AddDoubleLine(Honor.name, BreakUpLargeNumbers(Honor.quantity), 1, 1, 1, 1, 1, 1)
+	DT.tooltip:AddLine(" ")
 	
 	if (Rank > 0) then
 		local Name, Number = GetPVPRankInfo(Rank, "player")
