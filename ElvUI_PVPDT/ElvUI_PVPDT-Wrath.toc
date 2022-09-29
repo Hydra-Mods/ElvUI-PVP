@@ -1,8 +1,8 @@
 ## Interface: 30400
 ## Title: |cff1784d1ElvUI|r PVP Data Text
-## Version: 1.14
-## Notes: Create a data text to display pvp information
+## Version: 1.15
+## Notes: Create a data text to display honor
 ## Author: Hydra
 ## RequiredDeps: ElvUI
 
-ElvUI_PVPDT.lua
+ElvUI_ClassicPVPDT.lua

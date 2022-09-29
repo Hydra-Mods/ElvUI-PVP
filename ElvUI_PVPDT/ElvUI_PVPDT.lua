@@ -1,73 +1,74 @@
 local E = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
 
+local floor = floor
+local format = format
+local UnitHonor = UnitHonor
+local UnitHonorMax = UnitHonorMax
 local BreakUpLargeNumbers = BreakUpLargeNumbers
-local GetPVPLifetimeStats = GetPVPLifetimeStats
-local KILLS = KILLS
-local String = "%s: %s"
+local Honor = HONOR
+local String = "%s: %s / %s"
 local Panel
 
 local OnEvent = function(self, event, unit)
-	if (unit and unit ~= "player") then
-		return
-	end
-	
-	self.text:SetFormattedText(String, KILLS, BreakUpLargeNumbers(GetPVPLifetimeStats()))
+	self.text:SetText(format(String, Honor, UnitHonor("player"), UnitHonorMax("player")))
 	
 	Panel = self
 end
 
 local OnClick = function()
-	if E.Classic then
-		ToggleCharacter("HonorFrame")
-	else
-		ToggleCharacter("PVPFrame")
-	end
+	PVEFrame_ToggleFrame("PVPUIFrame", "HonorFrame")
 end
 
 local OnEnter = function(self)
 	DT:SetupTooltip(self)
 	
-	local HK, DK = GetPVPSessionStats()
-	local Rank = UnitPVPRank("player")
-	local Honor = C_CurrencyInfo.GetCurrencyInfo(1901)
+	local Honor = UnitHonor("player")
+	local MaxHonor = UnitHonorMax("player")
+	local HonorLevel = UnitHonorLevel("player")
+	local NextRewardLevel = _G.C_PvP.GetNextHonorLevelForReward(HonorLevel)
+	local RewardInfo = _G.C_PvP.GetHonorRewardInfo(NextRewardLevel)
+	local Percent = floor((Honor / MaxHonor * 100 + 0.05) * 10) / 10
+	local Remaining = MaxHonor - Honor
+	local RemainingPercent = floor((Remaining / MaxHonor * 100 + 0.05) * 10) / 10
+	local Kills = GetPVPLifetimeStats()
 	
-	DT.tooltip:AddDoubleLine(Honor.name, BreakUpLargeNumbers(Honor.quantity), 1, 1, 1, 1, 1, 1)
+	DT.tooltip:AddLine(format(HONOR_LEVEL_TOOLTIP, HonorLevel))
 	DT.tooltip:AddLine(" ")
+	DT.tooltip:AddLine("Current honor")
+	DT.tooltip:AddDoubleLine(format("%s / %s", BreakUpLargeNumbers(Honor), BreakUpLargeNumbers(MaxHonor)), format("%s%%", Percent), 1, 1, 1, 1, 1, 1)
 	
-	if (Rank > 0) then
-		local Name, Number = GetPVPRankInfo(Rank, "player")
+	DT.tooltip:AddLine(" ")
+	DT.tooltip:AddLine("Remaining honor")
+	DT.tooltip:AddDoubleLine(format("%s", BreakUpLargeNumbers(Remaining)), format("%s%%", RemainingPercent), 1, 1, 1, 1, 1, 1)
+	
+	if (Kills > 0) then
+		DT.tooltip:AddLine(" ")
+		DT.tooltip:AddLine(HONORABLE_KILLS)
+		DT.tooltip:AddLine(BreakUpLargeNumbers(Kills), 1, 1, 1)
+	end
+	
+	if RewardInfo then
+		local RewardText = select(11, GetAchievementInfo(RewardInfo.achievementRewardedID))
 		
-		DT.tooltip:AddDoubleLine(Name, format("%s %s", RANK, Number))
-		DT.tooltip:AddLine(" ")
-	end
-	
-	if (HK > 0) then
-		DT.tooltip:AddLine(HONOR_TODAY)
-		DT.tooltip:AddDoubleLine(HONORABLE_KILLS, BreakUpLargeNumbers(HK), 1, 1, 1, 1, 1, 1)
-		DT.tooltip:AddDoubleLine(DISHONORABLE_KILLS, BreakUpLargeNumbers(DK), 1, 1, 1, 1, 1, 1)
-		DT.tooltip:AddLine(" ")
-	end
-	
-	HK, DK = GetPVPLifetimeStats()
-	
-	if (HK > 0) then
-		DT.tooltip:AddLine(HONOR_LIFETIME)
-		DT.tooltip:AddDoubleLine(HONORABLE_KILLS, BreakUpLargeNumbers(HK), 1, 1, 1, 1, 1, 1)
-		DT.tooltip:AddDoubleLine(DISHONORABLE_KILLS, BreakUpLargeNumbers(DK), 1, 1, 1, 1, 1, 1)
+		if RewardText:match("%S") then
+			DT.tooltip:AddLine(" ")
+			DT.tooltip:AddLine(format(PVP_PRESTIGE_RANK_UP_NEXT_MAX_LEVEL_REWARD, NextRewardLevel))
+			DT.tooltip:AddLine(RewardText, 1, 1, 1)
+		end
 	end
 	
 	DT.tooltip:Show()
 end
 
 local ValueColorUpdate = function(hex)
-	String = strjoin("", "%s: ", hex, "%s|r")
+	String = strjoin("", "%s: ", hex, "%s|r / ", hex, "%s|r")
 	
-	if (Panel ~= nil) then
+	if Panel then
 		OnEvent(Panel)
 	end
 end
 
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext("PVP", nil, {"PLAYER_PVP_KILLS_CHANGED", "PLAYER_ENTERING_WORLD"}, OnEvent, nil, OnClick, OnEnter, nil, PVP)
+DT:RegisterDatatext("PVP", nil, {"HONOR_XP_UPDATE", "HONOR_LEVEL_UPDATE", "PLAYER_ENTERING_WORLD"}, OnEvent, nil, OnClick, OnEnter, nil, PVP)
