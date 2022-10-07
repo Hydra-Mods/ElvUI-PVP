@@ -16,10 +16,10 @@ local OnEvent = function(self)
 end
 
 local OnClick = function()
-	if E.Wrath then
-	
-	elseif E.Classic then
+	if E.Classic then
 		ToggleCharacter("HonorFrame")
+	elseif E.Wrath then
+		TogglePVPFrame()
 	else
 		ToggleCharacter("PVPFrame")
 	end
