@@ -35,18 +35,19 @@ local OnEnter = function(self)
 		local Name, Number = GetPVPRankInfo(Rank, "player")
 
 		DT.tooltip:AddDoubleLine(Name, format("%s %s", RANK, Number))
-		DT.tooltip:AddLine(" ")
 	end
 
 	if (HK > 0) then
+		DT.tooltip:AddLine(" ")
 		DT.tooltip:AddLine(HONOR_TODAY)
-		DT.tooltip:AddDoubleLine(HONORABLE_KILLS, BreakUpLargeNumbers(HK))
-		DT.tooltip:AddDoubleLine(DISHONORABLE_KILLS, BreakUpLargeNumbers(DK))
+		DT.tooltip:AddDoubleLine(HONORABLE_KILLS, BreakUpLargeNumbers(HK), 1, 1, 1, 1, 1, 1)
+		DT.tooltip:AddDoubleLine(DISHONORABLE_KILLS, BreakUpLargeNumbers(DK), 1, 1, 1, 1, 1, 1)
 	end
 
 	HK, DK = GetPVPLifetimeStats()
 
 	if (HK > 0) then
+		DT.tooltip:AddLine(" ")
 		DT.tooltip:AddLine(HONOR_LIFETIME)
 		DT.tooltip:AddDoubleLine(HONORABLE_KILLS, BreakUpLargeNumbers(HK), 1, 1, 1, 1, 1, 1)
 		DT.tooltip:AddDoubleLine(DISHONORABLE_KILLS, BreakUpLargeNumbers(DK), 1, 1, 1, 1, 1, 1)
