@@ -1,8 +1,6 @@
 local E = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
 
-local floor = floor
-local format = format
 local UnitHonor = UnitHonor
 local UnitHonorMax = UnitHonorMax
 local BreakUpLargeNumbers = BreakUpLargeNumbers
@@ -11,9 +9,11 @@ local String = "%s: %s / %s"
 local Panel
 
 local OnEvent = function(self, event, unit)
-	self.text:SetText(format(String, Honor, UnitHonor("player"), UnitHonorMax("player")))
+	self.text:SetFormattedText(String, Honor, UnitHonor("player"), UnitHonorMax("player"))
 
-	Panel = self
+	if (not Panel) then
+		Panel = self
+	end
 end
 
 local OnClick = function()
