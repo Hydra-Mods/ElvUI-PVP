@@ -1,6 +1,5 @@
 local E = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
-
 local GetCurrencyInfo = C_CurrencyInfo.GetCurrencyInfo
 local BreakUpLargeNumbers = BreakUpLargeNumbers
 local Honor = HONOR

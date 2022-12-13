@@ -1,6 +1,5 @@
 local E = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
-
 local UnitHonor = UnitHonor
 local UnitHonorMax = UnitHonorMax
 local BreakUpLargeNumbers = BreakUpLargeNumbers
