@@ -1,13 +1,10 @@
 local E = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
-local GetCurrencyInfo = C_CurrencyInfo.GetCurrencyInfo
-local BreakUpLargeNumbers = BreakUpLargeNumbers
-local Honor = HONOR
 local String = "%s: %s"
 local Panel
 
 local OnEvent = function(self)
-	self.text:SetFormattedText(String, Honor, GetCurrencyInfo(1901).quantity)
+	self.text:SetFormattedText(String, HONOR, C_CurrencyInfo.GetCurrencyInfo(1901).quantity)
 
 	if (not Panel) then
 		Panel = self

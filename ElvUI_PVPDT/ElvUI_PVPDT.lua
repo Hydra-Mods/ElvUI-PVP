@@ -1,14 +1,10 @@
 local E = unpack(ElvUI)
 local DT = E:GetModule("DataTexts")
-local UnitHonor = UnitHonor
-local UnitHonorMax = UnitHonorMax
-local BreakUpLargeNumbers = BreakUpLargeNumbers
-local Honor = HONOR
 local String = "%s: %s / %s"
 local Panel
 
 local OnEvent = function(self, event, unit)
-	self.text:SetFormattedText(String, Honor, UnitHonor("player"), UnitHonorMax("player"))
+	self.text:SetFormattedText(String, HONOR, UnitHonor("player"), UnitHonorMax("player"))
 
 	if (not Panel) then
 		Panel = self
@@ -34,7 +30,7 @@ local OnEnter = function(self)
 
 	DT.tooltip:AddLine(format(HONOR_LEVEL_TOOLTIP, HonorLevel))
 	DT.tooltip:AddLine(" ")
-	DT.tooltip:AddLine("Current honor")
+	DT.tooltip:AddLine("Current honor") -- HONOR
 	DT.tooltip:AddDoubleLine(format("%s / %s", BreakUpLargeNumbers(Honor), BreakUpLargeNumbers(MaxHonor)), format("%s%%", Percent), 1, 1, 1, 1, 1, 1)
 
 	DT.tooltip:AddLine(" ")
