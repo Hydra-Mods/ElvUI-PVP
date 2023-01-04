@@ -24,7 +24,8 @@ end
 local OnEnter = function(self)
 	DT:SetupTooltip(self)
 
-	local HK, DK = GetPVPSessionStats()
+	local HK = GetPVPSessionStats()
+	local LHK = GetPVPLifetimeStats()
 	local Rank = UnitPVPRank("player")
 
 	if (Rank > 0) then
@@ -34,19 +35,21 @@ local OnEnter = function(self)
 	end
 
 	if (HK > 0) then
-		DT.tooltip:AddLine(" ")
+		if (Rank and Rank > 0) then
+			DT.tooltip:AddLine(" ")
+		end
+
 		DT.tooltip:AddLine(HONOR_TODAY)
 		DT.tooltip:AddDoubleLine(HONORABLE_KILLS, BreakUpLargeNumbers(HK), 1, 1, 1, 1, 1, 1)
-		DT.tooltip:AddDoubleLine(DISHONORABLE_KILLS, BreakUpLargeNumbers(DK), 1, 1, 1, 1, 1, 1)
 	end
 
-	HK, DK = GetPVPLifetimeStats()
+	if (LHK > 0) then
+		if (Rank and Rank > 0 and HK == 0) or (HK > 0) then
+			DT.tooltip:AddLine(" ")
+		end
 
-	if (HK > 0) then
-		DT.tooltip:AddLine(" ")
 		DT.tooltip:AddLine(HONOR_LIFETIME)
-		DT.tooltip:AddDoubleLine(HONORABLE_KILLS, BreakUpLargeNumbers(HK), 1, 1, 1, 1, 1, 1)
-		DT.tooltip:AddDoubleLine(DISHONORABLE_KILLS, BreakUpLargeNumbers(DK), 1, 1, 1, 1, 1, 1)
+		DT.tooltip:AddDoubleLine(HONORABLE_KILLS, BreakUpLargeNumbers(LHK), 1, 1, 1, 1, 1, 1)
 	end
 
 	DT.tooltip:Show()
