@@ -66,4 +66,4 @@ end
 
 E.valueColorUpdateFuncs[ValueColorUpdate] = true
 
-DT:RegisterDatatext("PVP", nil, {"HONOR_XP_UPDATE", "HONOR_LEVEL_UPDATE", "PLAYER_ENTERING_WORLD"}, OnEvent, nil, OnClick, OnEnter, nil, PVP)
+DT:RegisterDatatext("PVP", nil, {"HONOR_XP_UPDATE", "HONOR_LEVEL_UPDATE"}, OnEvent, nil, OnClick, OnEnter, nil, PVP)
