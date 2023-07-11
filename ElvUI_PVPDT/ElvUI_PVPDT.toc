@@ -1,6 +1,6 @@
-## Interface: 100100
+## Interface: 100105
 ## Title: |cff1784d1ElvUI|r PVP Data Text
-## Version: 1.29
+## Version: 1.30
 ## Notes: Create a data text to display honor
 ## Author: Hydra
 ## RequiredDeps: ElvUI
